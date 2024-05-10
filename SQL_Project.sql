@@ -35,7 +35,7 @@ Select * from prod_cat_info
 
 *Methods Used.    "SELECT" STATEMENT
                   "COUNT" FUNCTION
-		              "WHERE" CLAUSE
+		  "WHERE" CLAUSE
 
 *Explanation.     The "SELECT" statement is used to retrieve data from the database.
                   "COUNT(*)" is an aggregate function that counts the number of rows returned by the query.
@@ -54,8 +54,8 @@ Select * from prod_cat_info
 
 *Methods Used.   "SELECT" STATEMENT
                  "DATEDIFF" FUNCTION
-		             "MIN" FUNCTION
-		             "MAX" FUNCTION
+		  "MIN" FUNCTION
+		  "MAX" FUNCTION
 
 *Explanation.    The "DATEDIFF" function is used three times to calculate the difference between the minimum (MIN(tran_date)) and maximum (MAX(tran_date)) transaction dates.
                  The first "DATEDIFF" calculates the difference in days (DAY).
@@ -68,8 +68,8 @@ Select * from prod_cat_info
 
 **Q4. Which product category does the sub- category "DIY" belong to?
           
-*Query.		            SELECT * FROM prod_cat_info
-		                  WHERE prod_subcat = 'DIY'
+*Query.		      SELECT * FROM prod_cat_info
+		      WHERE prod_subcat = 'DIY'
 
 *Methods Used.       "SELECT" STATEMENT
                      "WHERE" CLAUSE
@@ -84,14 +84,14 @@ Select * from prod_cat_info
 
 **Q1. Which channel is most frequently used for transactions?
           
-*Query.		          SELECT TOP 1 Count(*) AS Most_Used, Store_type FROM Transactions_new
-                    GROUP BY Store_type
-	                  ORDER BY Most_Used desc
+*Query.		       SELECT TOP 1 Count(*) AS Most_Used, Store_type FROM Transactions_new
+                       GROUP BY Store_type
+	               ORDER BY Most_Used desc
 
 *Methods Used.       "SELECT" STATEMENT
                      "COUNT" FUNCTION
-		                 "GROUP BY" CLAUSE
-		                 "ORDER BY" CLAUSE
+		     "GROUP BY" CLAUSE
+		     "ORDER BY" CLAUSE
 
 *Schema.             2 vairables and 1 row
 
@@ -106,7 +106,7 @@ Select * from prod_cat_info
 
 **Q2. What is the count of Male and Female customers in the database?
           
-*Query.		     SELECT Gender, COUNT(*) AS Count FROM Customer
+*Query.		     SELECT Gender, COUNT(*) AS Count FROM Customers_new
 	             WHERE Gender IS NOT NULL
 		     GROUP BY Gender
 
@@ -117,10 +117,10 @@ Select * from prod_cat_info
 
 *Schema.             2 variables and 2 rows
 
-*Explanation.        The "SELECT" statement retrieves data from the specified columns in the "Customer" table.
+*Explanation.        The "SELECT" statement retrieves data from the specified columns in the "Customers_new" table.
                      "COUNT(*)" is an aggregate function that counts the number of rows for each group.
                      "WHERE" is a Clause which filters the rows to include only those where the value in the "Gender" column is not null. This ensures that only customers with a known gender are considered.
-                     "GROUP BY" clause groups the rows of the "Customer" table by the values in the "Gender" column.
+                     "GROUP BY" clause groups the rows of the "Customers_new" table by the values in the "Gender" column.
                      Therefore, the query calculates the count of customers for each gender category, grouping the data by gender.
 
 
@@ -128,7 +128,7 @@ Select * from prod_cat_info
 **Q3. From which city do we have the maximum number of customers and how many?
       
 *Query.	             SELECT TOP 1 city_code, COUNT(*) AS Customer_count
-                     FROM Customer
+                     FROM Customer_new
                      GROUP BY city_code
                      ORDER BY Customer_count DESC
 
@@ -173,22 +173,22 @@ Select * from prod_cat_info
 
 **Q5. What is the maximum quantity of products ever ordered?
 	  
-*Query. 	   SELECT MAX(Qty) AS Maximum_Quantity FROM Transactions
+*Query. 	   SELECT MAX(Qty) AS Maximum_Quantity FROM Transactions_new
 
 *Methods Used.    "SELECT" STATEMENT
                   "MAX" FUNCTION
 
 *Schema.          1 variable and 1 row
 
-*Explanation.     "SELECT" statement retrieves data from the specified columns in the "Transactions" table.
+*Explanation.     "SELECT" statement retrieves data from the specified columns in the "Transactions_new" table.
                   "MAX" is an aggregate function that calculates the maximum value of the Qty column.
-                  Therefore, the query calculates the maximum value of the Qty column in the "Transactions" table, returning it as "Maximum_Quantity".
+                  Therefore, the query calculates the maximum value of the Qty column in the "Transactions_new" table, returning it as "Maximum_Quantity".
 
 
 
 **Q6. What is the net total revenue generated in categories Electronics and Books?
          
-*Query.           SELECT SUM(total_amt) AS Total_Revenue, prod_cat FROM Transactions t 
+*Query.           SELECT SUM(total_amt) AS Total_Revenue, prod_cat FROM Transactions_new t 
                   Inner Join prod_cat_info p 
                   on t.prod_cat_code = p.prod_cat_code and t.prod_subcat_code = p.prod_sub_cat_code
 	          Group by p.prod_cat
@@ -202,7 +202,7 @@ Select * from prod_cat_info
 
 *Schema.          2 variables and 2 rows
 
-*Explanation.     "SELECT" statement retrieves data from the specified columns in the "Transactions" table.
+*Explanation.     "SELECT" statement retrieves data from the specified columns in the "Transactions_new" table.
                   "SUM" is an aggregate function used to calculate the total sum of values in the total_amt column of a table.
                   "Join" used to combine rows from two or more tables based on related columns between them.
                   "GROUP BY" clause groups the results by the prod_cat column from the "prod_cat_info" table.
@@ -212,7 +212,7 @@ Select * from prod_cat_info
 
 **Q7. How many customers have >10 transactions with us, excluding returns?
       
-*Query.	          SELECT cust_id, COUNT(transaction_id) AS transaction_count FROM Transactions
+*Query.	          SELECT cust_id, COUNT(transaction_id) AS transaction_count FROM Transactions_new
                   WHERE total_amt > 0
                   GROUP BY cust_id
                   HAVING COUNT(transaction_id) > 10
@@ -225,17 +225,17 @@ Select * from prod_cat_info
 
 *Schema.          2 variables and 6 rows
 
-*Explaination.    "SELECT" statement retrieves data from the specified columns in the "Transactions" table.
+*Explaination.    "SELECT" statement retrieves data from the specified columns in the "Transactions_new" table.
                   "COUNT" is an aggregate function that counts the number of non-null values in the transaction_id column for each group.
                   "WHERE" clause filters the rows to include only those where the value in the total_amt column is greater than 0. This ensures that only transactions with positive total amounts are considered.
-                  "GROUP BY" clause groups the rows of the "Transactions" table by the values in the cust_id column.
+                  "GROUP BY" clause groups the rows of the "Transactions_new" table by the values in the cust_id column.
                   "HAVING" clause filters the grouped results to only include rows where the count of transactions for each customer (transaction_id) is greater than 10. This ensures that only customers with more than 10 transactions are included in the result set.
 	       
 
 
 **Q8. What is the combined revenue earned from the "Electronics " & "Clothing" categories, from "Flagship stores"?
 
-*Query.	          Select round(Sum(total_amt), 2) as combined_revenue, Store_type from Transactions t
+*Query.	          Select round(Sum(total_amt), 2) as combined_revenue, Store_type from Transactions_new t
 	          Inner join prod_cat_info p
 	          on t.prod_cat_code = p.prod_cat_code and t.prod_subcat_code = p.prod_sub_cat_code
                   Where p.prod_cat IN ('Electronics', 'Clothing')
@@ -252,12 +252,12 @@ Select * from prod_cat_info
 
 *Schema.          2 variables and 1 row
 
-*Explanation.     "SELECT" statement retrieves data from the specified columns in the "Transactions" table.
+*Explanation.     "SELECT" statement retrieves data from the specified columns in the "Transactions_new" table.
                   "ROUND" is a function used to round a numeric value to a specified number of decimal places.
                   "SUM" is an aggregate function used to calculate the total sum of values in the total_amt column of a table.
                   "INNER JOIN" used to combine rows from two or more tables based on related columns between them.
                   "WHERE" clause filters the joined result to include only rows where the prod_cat in the "prod_cat_info" table is either 'Electronics' or 'Clothing'.
-                  "GROUP BY" clause groups the rows of the result set by the store_type column from the "Transactions" table.
+                  "GROUP BY" clause groups the rows of the result set by the store_type column from the "Transactions_new" table.
                   "HAVING" clause filters the grouped results to only include rows where the store_type is 'Flagship store'.
                   Therefore, the query calculates the combined revenue for 'Electronics' and 'Clothing' products sold at 'Flagship store' locations, grouping the results by store type.
 
@@ -265,7 +265,7 @@ Select * from prod_cat_info
 
 **Q9. What is the total revenue generated from "Male" customers in "Electronics" category? Output should display total revenue by prod sub-cat.
 
-*Query.           SELECT prod_cat, prod_subcat, SUM(total_amt) AS total_revenue FROM Customer c
+*Query.           SELECT prod_cat, prod_subcat, SUM(total_amt) AS total_revenue FROM Customers_new c
                   JOIN Transactions t ON c.customer_Id = t.cust_id
                   JOIN prod_cat_info p ON t.prod_cat_code = p.prod_cat_code AND t.prod_subcat_code = p.prod_sub_cat_code
                   WHERE total_amt > 0 and Gender = 'M'
@@ -281,7 +281,7 @@ Select * from prod_cat_info
 
 *Schema.          3 variables and 5 rows
 
-*Explanation.     "SELECT" statement retrieves data from the specified columns in the "Transactions" table.
+*Explanation.     "SELECT" statement retrieves data from the specified columns in the "Transactions_new" table.
                   "SUM" is an aggregate function used to calculate the total sum of values in the total_amt column of a table.
                   "JOIN" used to combine rows from two or more tables based on related columns between them.
                   "WHERE" clause filters the rows to include only those where total_amt is greater than 0 and Gender is 'M' (for male customers).
@@ -292,7 +292,7 @@ Select * from prod_cat_info
 
 **Q10. What is percentage of sales and returns by product sub catgory; display only top 5 sub categories in terms of sales?
 
-*Query.           Select Top 5 (prod_subcat), Sum(total_amt) as Sales from Transactions t
+*Query.           Select Top 5 (prod_subcat), Sum(total_amt) as Sales from Transactions_new t
 		  Inner join prod_cat_info p
 		  on t.prod_cat_code = p.prod_cat_code and t.prod_subcat_code = p.prod_sub_cat_code
 		  where t.total_amt > 0
@@ -303,7 +303,7 @@ Select * from prod_cat_info
 	          as(SELECT TOP 5 (prod_subcat),
 		  ABS(SUM(CASE WHEN total_amt < 0 THEN total_amt ELSE 0 END)) as Returns,
 	          SUM(CASE WHEN total_amt > 0 THEN total_amt ELSE 0 END) as Sales
-		  FROM Transactions t
+		  FROM Transactions_new t
 		  INNER JOIN prod_cat_info p
 		  on t.prod_cat_code = p.prod_cat_code and t.prod_subcat_code = p.prod_sub_cat_code
 		  GROUP BY prod_subcat
@@ -344,13 +344,13 @@ Select * from prod_cat_info
   
 **Q11. For all customers aged between 25 to 35 years find what is the net total revenue generated by these consumers in last 30 days of transactions from max transaction date available in the data?
 
-*Query.            SELECT TOP 30 (tran_date) FROM Transactions
+*Query.            SELECT TOP 30 (tran_date) FROM Transactions_new
 		   GROUP BY tran_date
 		   ORDER BY tran_date DESC
 
 		   WITH ABC
-		   AS(SELECT TOP 30 (tran_date), SUM(total_amt) AS Total_amount FROM Customer c
-		   INNER JOIN Transactions t
+		   AS(SELECT TOP 30 (tran_date), SUM(total_amt) AS Total_amount FROM Customers_new c
+		   INNER JOIN Transactions_new t
 		   ON t.cust_id = c.customer_id
 		   WHERE DATEDIFF(YEAR,DOB,GETDATE()) BETWEEN 25 AND 35
 		   GROUP BY tran_date
@@ -369,15 +369,15 @@ Select * from prod_cat_info
 *Schema.           1 variable and 30 rows, 1 variable and 1 row
 
 *Explanation.      "Main Query":
-                   It selects the top 30 distinct tran_date values from the "Transactions" table.
+                   It selects the top 30 distinct tran_date values from the "Transactions_new" table.
                    The GROUP BY clause ensures that only distinct tran_date values are returned.
                    The ORDER BY clause orders the results by tran_date in descending order.
                    
 		   "Common Table Expression (CTE)":
                    The query defines a CTE named ABC.
                    The CTE calculates the total amount for each of the top 30 tran_date values.
-                   It selects the top 30 distinct tran_date values from the "Transactions" table.
-                   It joins the "Customer" and "Transactions" tables based on the customer ID (cust_id) to obtain the total amount for each transaction date.
+                   It selects the top 30 distinct tran_date values from the "Transactions_new" table.
+                   It joins the "Customers_new" and "Transactions_new" tables based on the customer ID (cust_id) to obtain the total amount for each transaction date.
                    It filters the customers based on their age, selecting only those aged between 25 and 35 years.
                    The GROUP BY clause groups the results by tran_date, aggregating the total amount for each transaction date.
                    The ORDER BY clause orders the results by tran_date in descending order.
@@ -390,7 +390,7 @@ Select * from prod_cat_info
 
 **Q12. Which product category has seen the max value of returns in the last 3 months of transactions?
         
-*Query.            SELECT prod_cat, COUNT(Qty) AS No_of_returns FROM Transactions t
+*Query.            SELECT prod_cat, COUNT(Qty) AS No_of_returns FROM Transactions_new t
                    INNER JOIN prod_cat_info p 
 		   ON t.prod_cat_code = p.prod_cat_code
 		   WHERE total_amt < 0 AND DATEDIFF(month, '2014-09-01',tran_date)=3
@@ -400,7 +400,7 @@ Select * from prod_cat_info
 
 		   WITH ABC
 		   AS(SELECT prod_cat, transaction_id, total_amt
-		   FROM Transactions t
+		   FROM Transactions_new t
 		   INNER JOIN prod_cat_info p
 		   ON t.prod_cat_code = p.prod_cat_code
 		   WHERE total_amt < 0 AND DATEDIFF(MONTH, '2014-09-01',tran_date)=3)
@@ -418,7 +418,7 @@ Select * from prod_cat_info
 
 *Explanation.      "Main Query":
                    "SELECT" AND "COUNT" selects the product category (prod_cat) and counts the quantity (Qty) of returns for each product category.
-                   "JOIN" - Joins the "Transactions" and "prod_cat_info" tables based on the product category code (prod_cat_code).
+                   "JOIN" - Joins the "Transactions_new" and "prod_cat_info" tables based on the product category code (prod_cat_code).
                    "WHERE" Clause filters the rows to include only those where the total_amt is less than 0.
                    It further filters the rows based on the transaction date (tran_date) being exactly 3 months after September 1, 2014.
                    "GROUP BY" Clause groups the product category.
@@ -426,7 +426,7 @@ Select * from prod_cat_info
 		   "Common Table Expression (CTE)":
                    The query defines a CTE named ABC.
                    The CTE selects the product category, transaction ID, and total amount for returns.
-                   It joins the "Transactions" and "prod_cat_info" tables similar to the main query.
+                   It joins the "Transactions_new" and "prod_cat_info" tables similar to the main query.
                    It filters the rows to include only those where the total_amt is less than 0 (indicating returns) and the transaction date is exactly 3 months after September 1, 2014.
                    
 		   "Final Query":
@@ -438,16 +438,16 @@ Select * from prod_cat_info
 
 **Q13. Which store-type sells the maximum products; by value of sales amount and by quantity sold?
 
-*Query.            SELECT Top 1 store_type, ROUND(SUM(total_amt), 2) AS total_sales FROM Transactions
+*Query.            SELECT Top 1 store_type, ROUND(SUM(total_amt), 2) AS total_sales FROM Transactions_new
                    GROUP BY store_type
                    ORDER BY total_sales DESC
 
 	           WITH SalesByAmount AS (
-                   SELECT store_type, ROUND(SUM(total_amt), 2) AS total_sales FROM Transactions
+                   SELECT store_type, ROUND(SUM(total_amt), 2) AS total_sales FROM Transactions_new
                    GROUP BY store_type
                    ),
                    SalesByQuantity AS (
-                   SELECT store_type, SUM(Qty) AS total_quantity_sold FROM Transactions
+                   SELECT store_type, SUM(Qty) AS total_quantity_sold FROM Transactions_new
                    GROUP BY store_type
                    )
                    SELECT 'By Amount' AS sales_criteria, sba.store_type, sba.total_sales FROM SalesByAmount sba
@@ -466,7 +466,7 @@ Select * from prod_cat_info
 *Schema.           2 variables and 1 row, 3 variables and 2 rows
 
 *Explanation.      "Main Query":
-                   It selects the top 1 store_type and the rounded sum of total_amt as total_sales from the "Transactions" table.
+                   It selects the top 1 store_type and the rounded sum of total_amt as total_sales from the "Transactions_new" table.
                    The results are grouped by store_type.
                    The results are ordered by total_sales in descending order.
                    
@@ -490,7 +490,7 @@ Select * from prod_cat_info
 **Q14. What are the categories for which average revenue is above the overall average.
           
 *Query.	           WITH CategoryAverage AS (
-                   SELECT p.prod_cat, ROUND(AVG(total_amt), 2) AS average_revenue, (SELECT ROUND(AVG(total_amt), 2) FROM Transactions) AS overall_average_revenue FROM Transactions t
+                   SELECT p.prod_cat, ROUND(AVG(total_amt), 2) AS average_revenue, (SELECT ROUND(AVG(total_amt), 2) FROM Transactions_new) AS overall_average_revenue FROM Transactions_new t
                    JOIN prod_cat_info p ON t.prod_cat_code = p.prod_cat_code
                    GROUP BY p.prod_cat
                    )
@@ -510,7 +510,7 @@ Select * from prod_cat_info
 *Explanation.      "Common Table Expression (CTE)":
                    The query defines a CTE named CategoryAverage.
                    It calculates the average revenue for each product category (prod_cat) by rounding the average of the total_amt column to two decimal places.
-                   It calculates the overall average revenue across all transactions using a subquery within the SELECT clause. This subquery retrieves the average of the total_amt column from the entire "Transactions" table and also rounds it to two decimal places.
+                   It calculates the overall average revenue across all transactions using a subquery within the SELECT clause. This subquery retrieves the average of the total_amt column from the entire "Transactions_new" table and also rounds it to two decimal places.
                    The results are grouped by prod_cat.
 
                    "Final Query":
@@ -522,13 +522,13 @@ Select * from prod_cat_info
 
 **Q15. Find the average and total revenue by each subcategory for the categories which are among top 5 categories in terms of quantity sold.
 
-*Query.            SELECT TOP 5(prod_cat), COUNT(Qty) AS Quantity_Sold FROM Transactions t
+*Query.            SELECT TOP 5(prod_cat), COUNT(Qty) AS Quantity_Sold FROM Transactions_new t
                    INNER JOIN prod_cat_info p
                    ON t.prod_cat_code = t.prod_cat_code
                    WHERE total_amt > 0
                    GROUP BY prod_cat
                    ORDER BY Quantity_Sold DESC
-                   SELECT prod_cat, prod_subcat, ROUND(SUM(total_amt), 3) AS Total_amount, ROUND(AVG(total_amt), 3) AS Avg_amount FROM Transactions t
+                   SELECT prod_cat, prod_subcat, ROUND(SUM(total_amt), 3) AS Total_amount, ROUND(AVG(total_amt), 3) AS Avg_amount FROM Transactions_new t
                    INNER JOIN prod_cat_info p
                    ON t.prod_cat_code = p.prod_cat_code
                    WHERE total_amt > 0 AND prod_cat IN ('Books', 'Electronics', 'Home and kitchen', 'Footwear', 'Clothing')
@@ -553,15 +553,15 @@ Select * from prod_cat_info
 *Schema.           2 variables and 5 rows, 4 variables and 21 rows
 
 *Explanation.      First Query (Top 5 Product Categories by Quantity Sold):
-                   It selects the top 5 product categories (prod_cat) based on the count of quantities sold (Qty) from the "Transactions" table.
-                   Joins the "Transactions" and "prod_cat_info" tables based on the product category code.
+                   It selects the top 5 product categories (prod_cat) based on the count of quantities sold (Qty) from the "Transactions_new" table.
+                   Joins the "Transactions_new" and "prod_cat_info" tables based on the product category code.
                    Filters the rows to include only those with positive total_amt values (indicating sales).
                    Groups the results by product category.
                    Orders the results by Quantity_Sold in descending order.
                    
 		   Second Query (Total and Average Amount by Product Subcategory):
-                   It selects the product category (prod_cat), product subcategory (prod_subcat), total amount (total_amt), and average amount (total_amt) from the "Transactions" table.
-                   Joins the "Transactions" and "prod_cat_info" tables based on the product category code.
+                   It selects the product category (prod_cat), product subcategory (prod_subcat), total amount (total_amt), and average amount (total_amt) from the "Transactions_new" table.
+                   Joins the "Transactions_new" and "prod_cat_info" tables based on the product category code.
                    Filters the rows to include only those with positive total_amt values and where the product category is one of ('Books', 'Electronics', 'Home and kitchen', 'Footwear', 'Clothing').
                    Groups the results by product category and product subcategory.
                    Orders the results using a CASE statement to sort the product categories in a specific order ('Books', 'Electronics', 'Home and kitchen', 'Footwear', 'Clothing').
